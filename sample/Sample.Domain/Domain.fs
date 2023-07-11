@@ -4,6 +4,8 @@ type AddOneFunc = int -> int
 
 type SubOneFunc = int -> int
 
+type MulOneFunc = int -> int
+
 module Domain =
 
     /// Adds one
@@ -11,3 +13,6 @@ module Domain =
 
     /// Subtracts one
     let subOne: SubOneFunc = fun x -> x - 1
+
+    /// Multiplies by one
+    let mulOne: MulOneFunc = id
