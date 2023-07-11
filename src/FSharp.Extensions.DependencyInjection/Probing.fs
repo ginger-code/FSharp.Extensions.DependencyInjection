@@ -8,6 +8,7 @@ open Microsoft.FSharp.Reflection
 module Probing =
     /// Ensure that the discovered properties have the InjectedFunction flag
     let inline private filterValidProperties seqFilter props =
+        //todo: make this (optionally) throw instead of returning so that errors are caught at startup
         /// Ensure that the discovered property is a struct-wrapped function in a single-case DU
         let inline isOfStructWrapperUnionTypeWithSingleFunctionCase (type': Type) =
             // Type is a struct
