@@ -7,15 +7,23 @@ open Microsoft.FSharp.Reflection
 
 module Probing =
     /// Ensure that the discovered properties have the InjectedFunction flag
-    let inline private filterPropertiesByAttribute seqFilter props =
+    let inline private filterValidProperties seqFilter props =
         /// Ensure that the discovered property is a struct-wrapped function in a single-case DU
-        let inline isOfStructWrapperUnionType (type': Type) =
+        let inline isOfStructWrapperUnionTypeWithSingleFunctionCase (type': Type) =
             // Type is a struct
             type'.IsValueType
             // Type is a DU
             && FSharpType.IsUnion type'
-            // Type has exactly one case
-            && FSharpType.GetUnionCases type' |> Array.length = 1
+            && let cases = FSharpType.GetUnionCases type' in
+               // Type has exactly one case
+               cases |> Array.length = 1
+               && let caseFields =
+                   cases |> Array.map (fun caseField -> caseField.GetFields()) |> Array.head in
+                  // DU case has exactly one field
+                  caseFields |> Array.length = 1
+                  && let caseField = caseFields |> Array.head in
+                     // DU case field is a function type
+                     FSharpType.IsFunction caseField.PropertyType
 
 
         /// Ensure that the discovered property has the InjectedFunction flag
@@ -24,7 +32,7 @@ module Probing =
             // Has attribute
             |> Seq.exists (fun attr -> attr.AttributeType = typeof<InjectedFunctionAttribute>)
             // Is a value of a single-case DU struct
-            && isOfStructWrapperUnionType prop.PropertyType
+            && isOfStructWrapperUnionTypeWithSingleFunctionCase prop.PropertyType
 
         props |> seqFilter hasInjectedFunctionAttribute
 
@@ -44,7 +52,7 @@ module Probing =
     let inline private findInjectedFunctionsInAssembly seqCollect seqFilter assemblies =
         let getFieldsForAssembly (assembly: Assembly) =
             assembly.DefinedTypes
-            |> Seq.collect (fun m -> m.DeclaredProperties |> (filterPropertiesByAttribute seqFilter))
+            |> Seq.collect (fun m -> m.DeclaredProperties |> (filterValidProperties seqFilter))
 
         seqCollect getFieldsForAssembly assemblies
 
