@@ -1,5 +1,3 @@
-module SampleWebApplication.Program
-
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
@@ -8,12 +6,15 @@ open Microsoft.Extensions.DependencyInjection
 open FSharp.Extensions.DependencyInjection
 open Giraffe
 
-let webApp =
+open Sample.WebApplication
+
+
+let private webApp =
     choose
         [ routef "/increment/%i" Handlers.addOne
           routef "/decrement/%i" Handlers.subOne ]
 
-type Startup() =
+type private Startup() =
     member _.ConfigureServices(services: IServiceCollection) =
         services.AddGiraffe().AddAllInjectedFunctionsParallel()
 
@@ -25,12 +26,3 @@ let run () =
         .ConfigureWebHostDefaults(fun webHostBuilder -> webHostBuilder.UseStartup<Startup>() |> ignore)
         .Build()
         .Run()
-
-let test () =
-    let serviceCollection = ServiceCollection()
-    assert (serviceCollection.Count = 0)
-    serviceCollection.AddAllInjectedFunctionsParallel()
-    assert (serviceCollection.Count = 2)
-    ()
-
-test ()

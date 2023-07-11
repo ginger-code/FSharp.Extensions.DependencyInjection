@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <AssemblyName>SampleConsoleApplication</AssemblyName>
+        <RootNamespace>SampleConsoleApplication</RootNamespace>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Program.fs"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\FSharp.Extensions.DependencyInjection\FSharp.Extensions.DependencyInjection.fsproj"/>
+        <ProjectReference Include="..\Sample.Domain.Wrappers\Sample.Domain.Wrappers.fsproj"/>
+        <ProjectReference Include="..\Sample.Domain\Sample.Domain.fsproj"/>
+    </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-namespace SampleWebApplication
+﻿namespace Sample.Domain
 
 type AddOneFunc = int -> int
 

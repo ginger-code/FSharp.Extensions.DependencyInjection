@@ -1,6 +1,8 @@
-namespace SampleWebApplication
+﻿namespace Sample.Domain.Wrappers
 
 open FSharp.Extensions.DependencyInjection
+
+open Sample.Domain
 
 /// Wrapper for AddOneFunc
 [<Struct>]

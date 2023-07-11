@@ -3,17 +3,21 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Optimize>true</Optimize>
+        <Configuration>Release</Configuration>
+        <Authors>Christopher Davis (ginger-code)</Authors>
+        <Company>ginger-code</Company>
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="InjectedFunctionAttribute.fs" />
-      <Compile Include="Probing.fs" />
-      <Compile Include="IServiceCollectionExtensions.fs" />
+        <Compile Include="InjectedFunctionAttribute.fs"/>
+        <Compile Include="Probing.fs"/>
+        <Compile Include="IServiceCollectionExtensions.fs"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FSharp.Collections.ParallelSeq" Version="1.2.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="FSharp.Collections.ParallelSeq" Version="1.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
     </ItemGroup>
 
 </Project>

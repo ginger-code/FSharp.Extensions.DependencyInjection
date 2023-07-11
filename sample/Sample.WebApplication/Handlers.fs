@@ -1,7 +1,8 @@
-module SampleWebApplication.Handlers
+module Sample.WebApplication.Handlers
 
 open Giraffe
-open SampleWebApplication
+
+open Sample.Domain.Wrappers
 
 let addOne (i: int) : HttpHandler =
     fun next ctx ->

@@ -6,7 +6,13 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Extensions.Dependenc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{D06E2A62-BF97-46AD-BB6E-683807AE3F01}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SampleWebApplication", "sample\SampleWebApplication\SampleWebApplication.fsproj", "{F24E23FD-9671-45F2-8225-8CEF4012E894}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.WebApplication", "sample\Sample.WebApplication\Sample.WebApplication.fsproj", "{F24E23FD-9671-45F2-8225-8CEF4012E894}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.ConsoleApp", "sample\Sample.ConsoleApplication\Sample.ConsoleApplication.fsproj", "{029B8E35-00A1-4699-B455-9CF199A5F698}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.Domain", "sample\Sample.Domain\Sample.Domain.fsproj", "{AE33364F-E3E3-444F-BFC4-44C3D9122676}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.Domain.Wrappers", "sample\Sample.Domain.Wrappers\Sample.Domain.Wrappers.fsproj", "{84021DF3-054F-4225-9AF3-23C9074DCB70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,6 +22,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E52081B5-7B87-49F2-9631-E87E13BC69BC} = {657B54FD-7302-4546-B886-D4EF9D58D9E4}
 		{F24E23FD-9671-45F2-8225-8CEF4012E894} = {D06E2A62-BF97-46AD-BB6E-683807AE3F01}
+		{029B8E35-00A1-4699-B455-9CF199A5F698} = {D06E2A62-BF97-46AD-BB6E-683807AE3F01}
+		{AE33364F-E3E3-444F-BFC4-44C3D9122676} = {D06E2A62-BF97-46AD-BB6E-683807AE3F01}
+		{84021DF3-054F-4225-9AF3-23C9074DCB70} = {D06E2A62-BF97-46AD-BB6E-683807AE3F01}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E52081B5-7B87-49F2-9631-E87E13BC69BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -26,5 +35,17 @@ Global
 		{F24E23FD-9671-45F2-8225-8CEF4012E894}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F24E23FD-9671-45F2-8225-8CEF4012E894}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F24E23FD-9671-45F2-8225-8CEF4012E894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{029B8E35-00A1-4699-B455-9CF199A5F698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{029B8E35-00A1-4699-B455-9CF199A5F698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{029B8E35-00A1-4699-B455-9CF199A5F698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{029B8E35-00A1-4699-B455-9CF199A5F698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE33364F-E3E3-444F-BFC4-44C3D9122676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE33364F-E3E3-444F-BFC4-44C3D9122676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE33364F-E3E3-444F-BFC4-44C3D9122676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE33364F-E3E3-444F-BFC4-44C3D9122676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84021DF3-054F-4225-9AF3-23C9074DCB70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84021DF3-054F-4225-9AF3-23C9074DCB70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84021DF3-054F-4225-9AF3-23C9074DCB70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84021DF3-054F-4225-9AF3-23C9074DCB70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
