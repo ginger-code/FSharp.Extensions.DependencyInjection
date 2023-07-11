@@ -1,19 +1,23 @@
-open System.Reflection
-open FSharp.Extensions.DependencyInjection
+module SampleWebApplication.Program
+
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open FSharp.Extensions.DependencyInjection
 open Giraffe
 
-let webApp = choose [ route "/ping" >=> text "pong" ]
+let webApp =
+    choose
+        [ routef "/increment/%i" Handlers.addOne
+          routef "/decrement/%i" Handlers.subOne ]
 
 type Startup() =
-    member _.ConfigureServices(services: IServiceCollection) = services.AddGiraffe() |> ignore
+    member _.ConfigureServices(services: IServiceCollection) =
+        services.AddGiraffe().AddAllInjectedFunctionsParallel()
 
-    member _.Configure (app: IApplicationBuilder) (env: IHostEnvironment) (loggerFactory: ILoggerFactory) =
-        app.UseGiraffe webApp
+    member _.Configure (app: IApplicationBuilder) (_: IHostEnvironment) (_: ILoggerFactory) = app.UseGiraffe webApp
 
 let run () =
     Host
@@ -23,12 +27,10 @@ let run () =
         .Run()
 
 let test () =
-    Probing.findAllInjectedFunctionsByAttribute ()
-    |> Seq.iter (printfn "%O")
+    let serviceCollection = ServiceCollection()
+    assert (serviceCollection.Count = 0)
+    serviceCollection.AddAllInjectedFunctionsParallel()
+    assert (serviceCollection.Count = 2)
+    ()
 
 test ()
-// let assm = Assembly.GetEntryAssembly()
-// assm.DefinedTypes
-// |> Seq.filter (fun t -> t.Name.Contains("Wrappers"))
-// |> Seq.collect (fun t -> t.DeclaredProperties)
-// |> Seq.iter (printfn "%O")

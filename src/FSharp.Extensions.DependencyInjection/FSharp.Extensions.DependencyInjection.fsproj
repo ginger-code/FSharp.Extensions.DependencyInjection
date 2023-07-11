@@ -8,6 +8,12 @@
     <ItemGroup>
       <Compile Include="InjectedFunctionAttribute.fs" />
       <Compile Include="Probing.fs" />
+      <Compile Include="IServiceCollectionExtensions.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FSharp.Collections.ParallelSeq" Version="1.2.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
 
 </Project>
