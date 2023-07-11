@@ -3,14 +3,28 @@ namespace FSharp.Extensions.DependencyInjection
 open System
 open System.Reflection
 open FSharp.Collections.ParallelSeq
+open Microsoft.FSharp.Reflection
 
 module Probing =
     /// Ensure that the discovered properties have the InjectedFunction flag
     let inline private filterPropertiesByAttribute seqFilter props =
+        /// Ensure that the discovered property is a struct-wrapped function in a single-case DU
+        let inline isOfStructWrapperUnionType (type': Type) =
+            // Type is a struct
+            type'.IsValueType
+            // Type is a DU
+            && FSharpType.IsUnion type'
+            // Type has exactly one case
+            && FSharpType.GetUnionCases type' |> Array.length = 1
+
+
         /// Ensure that the discovered property has the InjectedFunction flag
         let inline hasInjectedFunctionAttribute (prop: PropertyInfo) =
             prop.CustomAttributes
+            // Has attribute
             |> Seq.exists (fun attr -> attr.AttributeType = typeof<InjectedFunctionAttribute>)
+            // Is a value of a single-case DU struct
+            && isOfStructWrapperUnionType prop.PropertyType
 
         props |> seqFilter hasInjectedFunctionAttribute
 
