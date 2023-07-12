@@ -4,3 +4,4 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea/.idea.FSharp.Extensions.DependencyInjection/.idea/
+benchmarks/FSharp.Extensions.DependencyInjection.Benchmarks/BenchmarkDotNet.Artifacts
