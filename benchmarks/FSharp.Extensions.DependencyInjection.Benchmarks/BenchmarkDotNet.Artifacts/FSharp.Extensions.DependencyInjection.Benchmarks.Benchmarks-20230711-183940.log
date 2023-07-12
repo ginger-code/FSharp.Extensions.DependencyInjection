@@ -1,4 +1,0 @@
-// Validating benchmarks:
-Benchmarked method `Raw Function Pointer` contains illegal character(s) or uses C# keyword. Please use `[<Benchmark(Description = "Custom name")>]` to set custom display name.
-Benchmarked method `Wrapped Function Pointer` contains illegal character(s) or uses C# keyword. Please use `[<Benchmark(Description = "Custom name")>]` to set custom display name.
-Benchmarked method `Injected Wrapped Function Pointer` contains illegal character(s) or uses C# keyword. Please use `[<Benchmark(Description = "Custom name")>]` to set custom display name.
