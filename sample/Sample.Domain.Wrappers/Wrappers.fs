@@ -33,7 +33,10 @@ type MulOne = MulOne of MulOneFunc
 /// NOTE: The DU case does not contain a function type, so it won't be injected.
 /// </summary>
 [<Struct>]
-type SomeDU = SingleCase of int * int
+type SomeDU = SingleCase of int
+
+[<Struct>]
+type TwoFieldDU = TwoField of (int -> int) * (int -> int)
 
 module Wrappers =
     /// Injected function in wrapper
@@ -44,14 +47,18 @@ module Wrappers =
     [<InjectedFunction>]
     let subOne = Domain.subOne |> SubOne
 
-    /// Not a single-case DU- ignored!
-    [<InjectedFunction>]
-    let addSome = Domain.addOne >> Domain.addOne |> IncreaseTwo
+// Not a single-case DU- this will throw an error at startup!
+//[<InjectedFunction>]
+//let addSome = Domain.addOne >> Domain.addOne |> IncreaseTwo
 
-    /// Not a struct DU- ignored!
-    [<InjectedFunction>]
-    let mulOne = Domain.mulOne |> MulOne
+// Not a struct DU- this will throw an error at startup!
+// [<InjectedFunction>]
+// let mulOne = Domain.mulOne |> MulOne
 
-    /// Not a function DU- ignored!
-    [<InjectedFunction>]
-    let singleCase = (1, 5) |> SingleCase
+// Not a DU case with a single field- this will throw an error at startup!
+// [<InjectedFunction>]
+// let twoField = TwoField(id, id)
+
+// Not a function DU- this will throw an error at startup!
+// [<InjectedFunction>]
+// let singleCase = 1 |> SingleCase

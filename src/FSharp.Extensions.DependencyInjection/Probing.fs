@@ -6,26 +6,47 @@ open FSharp.Collections.ParallelSeq
 open Microsoft.FSharp.Reflection
 
 module Probing =
+
+    let inline private check ([<InlineIfLambda>] f: Type -> bool) msg t =
+        if f t then
+            true
+        else
+            failwith $"'{t.FullName}' is not a valid use of the InjectedFunction attribute: {msg}"
+
     /// Ensure that the discovered properties have the InjectedFunction flag
     let inline private filterValidProperties seqFilter props =
-        //todo: make this (optionally) throw instead of returning so that errors are caught at startup
         /// Ensure that the discovered property is a struct-wrapped function in a single-case DU
         let inline isOfStructWrapperUnionTypeWithSingleFunctionCase (type': Type) =
-            // Type is a struct
-            type'.IsValueType
-            // Type is a DU
-            && FSharpType.IsUnion type'
-            && let cases = FSharpType.GetUnionCases type' in
-               // Type has exactly one case
-               cases |> Array.length = 1
-               && let caseFields =
-                   cases |> Array.map (fun caseField -> caseField.GetFields()) |> Array.head in
-                  // DU case has exactly one field
-                  caseFields |> Array.length = 1
-                  && let caseField = caseFields |> Array.head in
-                     // DU case field is a function type
-                     FSharpType.IsFunction caseField.PropertyType
+            let isStruct = check (fun t -> t.IsValueType) "Type must be a struct"
+            let isDU = check FSharpType.IsUnion "Type must be a discriminated union"
 
+            let isValidDU t =
+                let cases = FSharpType.GetUnionCases t
+
+                let hasOneCase =
+                    t |> check (fun _ -> cases.Length = 1) "Union must have exactly one case"
+
+                if hasOneCase then
+                    let fields =
+                        cases |> Array.map (fun caseField -> caseField.GetFields()) |> Array.head
+
+                    let caseHasOneField =
+                        t |> check (fun _ -> fields.Length = 1) "Union case must have exactly one field"
+
+                    if caseHasOneField then
+                        let caseField = fields |> Array.head
+
+                        let caseFieldIsFunction =
+                            caseField.PropertyType
+                            |> check FSharpType.IsFunction "Union case field must be a function type"
+
+                        caseFieldIsFunction
+                    else
+                        false
+                else
+                    false
+
+            isStruct type' && isDU type' && isValidDU type'
 
         /// Ensure that the discovered property has the InjectedFunction flag
         let inline hasInjectedFunctionAttribute (prop: PropertyInfo) =
