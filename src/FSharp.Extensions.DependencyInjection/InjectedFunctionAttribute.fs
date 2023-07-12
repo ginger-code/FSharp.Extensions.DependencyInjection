@@ -7,3 +7,6 @@ open System
 [<AttributeUsage(AttributeTargets.Property)>]
 type InjectedFunctionAttribute() =
     inherit Attribute()
+
+
+//TODO: Currently, this does not work with DUs with a generic type parameter. Figure out if that's possible and how.
