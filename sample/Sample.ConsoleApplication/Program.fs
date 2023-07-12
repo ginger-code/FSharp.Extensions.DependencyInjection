@@ -14,7 +14,7 @@ if serviceCollection.Count <> 0 then
     failwith "Service collection should have been empty"
 
 printfn "Adding all injected functions to service collection"
-serviceCollection.AddAllInjectedFunctions()
+serviceCollection.AddAllInjectedFunctions() |> ignore
 printfn "Asserting service collection has 2 functions injected"
 assert (serviceCollection.Count = 2)
 

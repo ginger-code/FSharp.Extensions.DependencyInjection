@@ -71,5 +71,5 @@ module Probing =
     let inline findAllInjectedFunctionsByAttributeParallel parallelism =
         match parallelism with
         | Some parallelism -> PSeq.ofArray >> PSeq.withDegreeOfParallelism parallelism
-        | None -> PSeq.ofArray
+        | None -> PSeq.ofArray >> PSeq.withDegreeOfParallelism Environment.ProcessorCount
         |> findAllInjectedFunctionsByAttribute' PSeq.collect PSeq.filter PSeq.map

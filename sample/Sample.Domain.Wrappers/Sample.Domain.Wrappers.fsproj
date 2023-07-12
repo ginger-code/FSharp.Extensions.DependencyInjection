@@ -3,15 +3,17 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Authors>Christopher Davis (ginger-code)</Authors>
+        <Company>ginger-code</Company>
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Wrappers.fs" />
+        <Compile Include="Wrappers.fs"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\FSharp.Extensions.DependencyInjection\FSharp.Extensions.DependencyInjection.fsproj" />
-      <ProjectReference Include="..\Sample.Domain\Sample.Domain.fsproj" />
+        <ProjectReference Include="..\..\src\FSharp.Extensions.DependencyInjection\FSharp.Extensions.DependencyInjection.fsproj"/>
+        <ProjectReference Include="..\Sample.Domain\Sample.Domain.fsproj"/>
     </ItemGroup>
 
 </Project>

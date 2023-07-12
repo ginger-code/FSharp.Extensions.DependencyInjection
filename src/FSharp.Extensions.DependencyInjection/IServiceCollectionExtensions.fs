@@ -20,7 +20,9 @@ module IServiceCollectionExtensions =
         /// Add all wrapped functions marked with the InjectedFunction attribute to the service collection
         member this.AddAllInjectedFunctions() =
             addAllInjectedFunctions Probing.findAllInjectedFunctionsByAttribute this
+            this
 
         /// Add all wrapped functions marked with the InjectedFunction attribute to the service collection using the specified degree of parallelism (max parallelism if none provided)
         member this.AddAllInjectedFunctionsParallel(?parallelism) =
             addAllInjectedFunctions (Probing.findAllInjectedFunctionsByAttributeParallel parallelism) this
+            this
