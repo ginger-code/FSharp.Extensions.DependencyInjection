@@ -10,7 +10,7 @@ module IServiceCollectionExtensions =
         (injectedFunctions : InjectedFunctionTypeAndFactory seq)
         =
         injectedFunctions
-        |> Seq.iter (fun (struct (type', factory)) -> services.AddSingleton (type', factory) |> ignore) //todo: for generics, this should be a factory, rather than an instance
+        |> Seq.iter (fun (struct (type', factory)) -> services.AddSingleton (type', factory) |> ignore)
 
     let inline private addAllInjectedFunctions func (services : #IServiceCollection) =
         func () |> addInjectedFunctions services
