@@ -5,9 +5,11 @@ open FSharp.Extensions.DependencyInjection
 open Microsoft.Extensions.DependencyInjection
 
 
-[<InjectableFunction>]
-[<Struct>]
+[<Struct; InjectableFunction>]
 type IntegerAdditionFunction = IntegerAdditionFunction of func: (int -> int -> int)
+
+[<Struct; InjectableFunction>]
+type IntegerMultiplicationFunction = IntegerMultiplicationFunction of func: (int -> int -> int)
 
 [<Struct>]
 type FloatAdditionFunction = FloatAdditionFunction of func: (float -> float -> float)
@@ -48,4 +50,26 @@ let functionInjectionTests =
                   serviceProvider.GetService<IntegerAdditionFunction>()
 
               let result = func 1 1
-              Expect.equal result 2 "Integer addition function was not retrieved correctly from the provider" ]
+              Expect.equal result 2 "Integer addition function was not retrieved correctly from the provider"
+
+          testCase "Multiple can be retrieved from built service provider"
+          <| fun _ ->
+              let serviceCollection = ServiceCollection()
+              let additionFunction = IntegerAdditionFunction (+)
+              let multiplicationFunction = IntegerMultiplicationFunction (*)
+
+              let serviceProvider =
+                  serviceCollection
+                      .AddFunctions([ additionFunction; multiplicationFunction ])
+                      .BuildServiceProvider()
+
+              let (IntegerAdditionFunction add) =
+                  serviceProvider.GetService<IntegerAdditionFunction>()
+
+              let (IntegerMultiplicationFunction mul) =
+                  serviceProvider.GetService<IntegerMultiplicationFunction>()
+
+              let result = mul 5 5 |> add 2
+              Expect.equal result 27 "Integer addition function was not retrieved correctly from the provider"
+
+          ]

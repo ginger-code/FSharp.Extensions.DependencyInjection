@@ -17,13 +17,11 @@ module IServiceCollectionExtensions =
         injectedFunctions
         |> Seq.iter (fun (struct (type', factory)) -> services.AddSingleton(type', factory) |> ignore)
 
-    let inline private addAllInjectedFunctions func (services: #IServiceCollection) =
-        func () |> addInjectedFunctions services
-
     let inline private assertTrue errorMsg pred =
         if not pred then
             failwith errorMsg
 
+    /// Implementation for injecting a function wrapper implementation for a type marked with the InjectableFunctionAttribute
     let inline private addFunction (wrapperType: Type) (func: obj) (services: IServiceCollection) =
         (wrapperType.CustomAttributes
          |> Seq.exists (fun attr -> attr.AttributeType = typeof<InjectableFunctionAttribute>))
@@ -59,35 +57,44 @@ module IServiceCollectionExtensions =
 
         /// Add all wrapped functions marked with the InjectedFunction attribute to the service collection
         member this.AddAllInjectedFunctions() =
-            addAllInjectedFunctions Probing.findAllInjectedFunctionsByAttribute this
+            Probing.findAllInjectedFunctionsByAttribute () |> addInjectedFunctions this
             this
 
         /// Add all wrapped functions marked with the InjectedFunction attribute to the service collection using the specified degree of parallelism (max parallelism if none provided)
         member this.AddAllInjectedFunctionsParallel(?parallelism) =
-            addAllInjectedFunctions (Probing.findAllInjectedFunctionsByAttributeParallel parallelism) this
+            (Probing.findAllInjectedFunctionsByAttributeParallel parallelism)
+            |> addInjectedFunctions this
+
             this
 
+        /// Adds a non-generic wrapped function to the collection
         member inline this.AddFunction(wrapperType: Type, func) = addFunction wrapperType func this
 
+        /// Adds a collection of non-generic wrapped functions to the collection
         member inline this.AddFunctions(functions: obj seq) =
             functions |> Seq.fold (fun sc x -> addFunction (x.GetType()) x sc) this
 
         /// Adds a non-generic wrapped function to the collection
         member inline this.AddFunction<[<InjectableFunction>] 'wrapper when 'wrapper: struct>(func: 'wrapper) =
-            let wrapperType = typeof<'wrapper>
-            this.AddFunction(wrapperType, func)
+            addFunction typeof<'wrapper> func this
 
+        /// Adds a non-generic wrapped function to the collection
         member inline this.AddFunction<[<InjectableFunction>] 'wrapper
             when 'wrapper: struct and 'wrapper: (static member Implementation: 'wrapper)>
             ()
             =
-            this.AddFunction<'wrapper> 'wrapper.Implementation
+            addFunction typeof<'wrapper> 'wrapper.Implementation this
 
-        static member inline addFunction<[<InjectableFunction>] 'wrapper when 'wrapper: struct>(func: 'wrapper) =
-            fun (builder: FunctionCollection) -> builder.AddFunction<'wrapper> func
+        /// Adds a non-generic wrapped function to the collection
+        static member inline addFunction<[<InjectableFunction>] 'wrapper when 'wrapper: struct>
+            (func: 'wrapper)
+            (collection: FunctionCollection)
+            =
+            addFunction typeof<'wrapper> func collection
 
+        /// Adds a non-generic wrapped function to the collection
         static member inline addFunction<[<InjectableFunction>] 'wrapper
             when 'wrapper: struct and 'wrapper: (static member Implementation: 'wrapper)>
-            (builder: FunctionCollection)
+            (collection: FunctionCollection)
             =
-            builder.AddFunction<'wrapper>()
+            addFunction typeof<'wrapper> 'wrapper.Implementation collection
