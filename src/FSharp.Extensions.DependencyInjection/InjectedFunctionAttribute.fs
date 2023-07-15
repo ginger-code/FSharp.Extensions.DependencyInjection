@@ -10,3 +10,4 @@ type InjectedFunctionAttribute() =
 
 
 //TODO: Currently, this does not work with DUs with a generic type parameter. Figure out if that's possible and how.
+
