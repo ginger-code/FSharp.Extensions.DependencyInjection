@@ -6,7 +6,7 @@ open FSharp.Extensions.DependencyInjection
 module Services =
     let makeServiceProvider =
         let inline create () = ServiceCollection()
-        let inline inject (services: #IServiceCollection) = services.AddAllInjectedFunctions()
+        let inline inject (services: #IServiceCollection) = services.AddAllReflectedInjectedFunctions()
         let inline build (services: #IServiceCollection) = services.BuildServiceProvider()
 
         create >> inject >> build

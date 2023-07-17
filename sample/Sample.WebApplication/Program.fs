@@ -16,7 +16,7 @@ let private webApp =
 
 type private Startup() =
     member _.ConfigureServices(services: IServiceCollection) =
-        services.AddGiraffe().AddAllInjectedFunctions()
+        services.AddGiraffe().AddAllReflectedInjectedFunctions()
 
     member _.Configure (app: IApplicationBuilder) (_: IHostEnvironment) (_: ILoggerFactory) = app.UseGiraffe webApp
 

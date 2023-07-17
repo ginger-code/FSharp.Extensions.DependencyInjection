@@ -14,4 +14,4 @@ module IServiceProviderExtensions =
         static member inline getFunction<[<InjectableFunction>] 'wrapper when 'wrapper: struct>
             (provider: IServiceProvider)
             =
-            provider.GetService<'wrapper>()
+            provider.GetFunction<'wrapper>()
